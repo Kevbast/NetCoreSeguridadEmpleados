@@ -1,0 +1,25 @@
+﻿@if (Context.User.Identity.IsAuthenticated == false)
+{
+    //NUNCA LLAMAMOS A LOGIN
+    //EL TRUCO ESTÁ EN LLAMAR A UNA VISTA QUE TENGAMOS CON SEGURIDAD Y AHÍ APARECERÁ EL LOGIN
+    //EFECTO OPTICO DEL LOGIN
+    <li class="nav-link text-info">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Perfil">Log In</a>
+    </li>
+}
+else
+{
+    <ul class="list-group">
+        <li class="list-group-item">
+            @* mirar el aspaction *@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Perfil">Mi Perfil</a>
+        </li>
+        <li class="list-group-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Managed" asp-action="LogOut">
+                Log OUT(CERRARSESION)
+
+                <span style="color:green">@Context.User.Identity.Name</span>
+            </a>
+        </li>
+    </ul>
+}
