@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using NetCoreSeguridadEmpleados.Models;
 using NetCoreSeguridadEmpleados.Repositories;
 using System.Security.Claims;
@@ -32,6 +33,12 @@ namespace NetCoreSeguridadEmpleados.Controllers
                 ClaimsIdentity identity = new ClaimsIdentity(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     ClaimTypes.Name, ClaimTypes.Role);
+                //vamos a preguntar para manipular un claim
+                if (empleado.IdEmpleado == 7499)
+                {
+                    Claim claimAdmin = new Claim("Admin", "Soy el boss de la empresaa");
+                    identity.AddClaim(claimAdmin);
+                }
 
                 Claim claimName = new Claim(ClaimTypes.Name , username);
                 identity.AddClaim(claimName);
@@ -61,11 +68,18 @@ namespace NetCoreSeguridadEmpleados.Controllers
                 string controller = TempData["controller"].ToString();
                 string action = TempData["action"].ToString();
 
+                if (TempData["id"] != null)//SOLO FUNCIONA CON ID
+                {
+                string id = TempData["id"].ToString();
+                    return RedirectToAction(action, controller, new { id = id });//SOLO FUNCIONA CON ID
+                }
+                else
+                {
+                    //POR AHORA LO ENVIAMOS A UNA VISTA QUE HAREMOS EN BREVE
+                    //return RedirectToAction("Perfil", "Empleados");//MIRAR BIEN EL NOMBRE
+                    return RedirectToAction(action, controller);//Ahora implementamos el redirect dinamico
 
-                //POR AHORA LO ENVIAMOS A UNA VISTA QUE HAREMOS EN BREVE
-                //return RedirectToAction("Perfil", "Empleados");//MIRAR BIEN EL NOMBRE
-                return RedirectToAction(action, controller);//Ahora implementamos el redirect dinamico
-
+                }
 
             }
 

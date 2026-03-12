@@ -22,6 +22,9 @@ namespace NetCoreSeguridadEmpleados.Filters
             //VAMOS A RECUPERAR EL CONTROLLER y action
             string controller = context.RouteData.Values["controller"].ToString();
             string action = context.RouteData.Values["action"].ToString();
+
+            //RECUPERAMOS LA VARIABLE ID PARA DETAILS
+            var id = context.RouteData.Values["id"];
             //Es el tempdata de nuestra aplicacion,
             //gracias a que hemos puesto esto en program .AddSessionStateTempDataProvider();
             ITempDataProvider provider = context.HttpContext.RequestServices.GetService<ITempDataProvider>();
@@ -30,8 +33,20 @@ namespace NetCoreSeguridadEmpleados.Filters
             //ALMACENAMOS LA INFORMACION
             tempData["controller"] = controller;
             tempData["action"] = action;
-            //REASIGNAMOS EL TEMPDATA PARA NUESTRA APP
-            provider.SaveTempData(context.HttpContext, tempData);
+            //SOLO FUNCIONA CON ID
+            //DEBEMOS PREGUNTAR POR EL ID--
+            if (id != null)
+            {
+                tempData["id"] = id.ToString();
+            }
+            else
+            {
+                //ELIMINAMOS EL ID SI ES QUE NO NOS LLEGA NINGUNO PARA QUE NO SE QUEDE ENTRE LAS PETICIONES
+                tempData.Remove("id");
+            }
+
+                //REASIGNAMOS EL TEMPDATA PARA NUESTRA APP
+                provider.SaveTempData(context.HttpContext, tempData);
             //Ahora vamos a managed
 
 

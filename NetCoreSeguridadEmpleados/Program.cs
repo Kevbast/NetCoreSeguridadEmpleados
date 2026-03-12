@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NetCoreSeguridadEmpleados.Data;
+using NetCoreSeguridadEmpleados.Policies;
 using NetCoreSeguridadEmpleados.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +11,10 @@ Políticas de Roles, indicando los Roles que deseamos incluir en las políticas.
  */
 builder.Services.AddAuthorization(options =>
 {
-    //DEBEMOS CREAR LAS POLICIES QUE NECESITEMOS PARA LOS ROLES
-    options.AddPolicy("SOLOJEFES", policy => policy.RequireRole("PRESIDENTE", "DIRECTOR", "ANALISTA"));
+//DEBEMOS CREAR LAS POLICIES QUE NECESITEMOS PARA LOS ROLES
+options.AddPolicy("SOLOJEFES", policy => policy.RequireRole("PRESIDENTE", "DIRECTOR", "ANALISTA"));
+options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+options.AddPolicy("SOLOMASONES", policy => policy.Requirements.Add(new OverSalarioRequirement()));
 });//AHORA LO APLICAREMOS DENTRO DE COMPIES,EN EL CONTROLLER DE EMPLEADOS
 
 

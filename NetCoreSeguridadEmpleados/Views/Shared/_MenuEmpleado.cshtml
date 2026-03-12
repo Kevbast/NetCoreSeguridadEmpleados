@@ -6,19 +6,28 @@
     <li class="nav-link text-info">
         <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Perfil">Log In</a>
     </li>
+    //como es una zona que no hace falta enseñar en el navbar la muestro en el partial
+    
 }
 else
 {
-    <ul class="list-group">
-        <li class="list-group-item">
-            @* mirar el aspaction *@
-            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Perfil">Mi Perfil</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Perfil">
+                Mi Perfil
+            </a>
         </li>
-        <li class="list-group-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Managed" asp-action="LogOut">
-                Log OUT(CERRARSESION)
 
-                <span style="color:green">@Context.User.Identity.Name</span>
+        @* Si el usuario es Admin, podrías envolver esto en un if *@
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="AdminEmpleados">
+                Admin
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Managed" asp-action="LogOut">
+                Log Out (<span class="text-success">@Context.User.Identity.Name</span>)
             </a>
         </li>
     </ul>

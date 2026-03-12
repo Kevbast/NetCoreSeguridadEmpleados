@@ -22,10 +22,11 @@ namespace NetCoreSeguridadEmpleados.Controllers
             List<Empleado> empleados = await this.repo.GetAllEmpleadoAsync();
             return View(empleados);
         }
+        [AuthorizeEmpleados]
 
-        public async Task<IActionResult> Details(int empno)
+        public async Task<IActionResult> Details(int id)//SOLO FUNCIONA CON ID
         {
-            Empleado emp = await this.repo.FindEmpleadoAsync(empno);
+            Empleado emp = await this.repo.FindEmpleadoAsync(id);
             return View(emp);
         }
 
@@ -63,6 +64,22 @@ namespace NetCoreSeguridadEmpleados.Controllers
 
             return View(empleados);
         }
+
+
+        [AuthorizeEmpleados(Policy ="AdminOnly")]
+        public IActionResult AdminEmpleados()
+        {
+            return View();
+        }
+
+        //PARA EL NUEVO POLICY QUE HEMOS CREADO
+        [AuthorizeEmpleados(Policy = "SOLOMASONES")]
+        public IActionResult ZonaMasones()
+        {
+            return View();
+        }
+
+
 
 
 
