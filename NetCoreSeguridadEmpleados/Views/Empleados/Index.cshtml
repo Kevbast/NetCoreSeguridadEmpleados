@@ -53,7 +53,7 @@
                     @* //SOLO FUNCIONA CON ID *@
                     @Html.ActionLink("Details", "Details", new { id = item.IdEmpleado }) |
     
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new {  id=item.IdEmpleado })
             </td>
         </tr>
 }

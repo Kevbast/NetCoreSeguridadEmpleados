@@ -46,5 +46,18 @@ namespace NetCoreSeguridadEmpleados.Repositories
             return empleado;
         }
 
+        public async Task DeleteEmpleado(int idemp)
+        {
+            Empleado empleado = await this.FindEmpleadoAsync(idemp);
+            //se puede usar find si lo que buscas es sobre la primary key
+            this.context.empleados.Remove(empleado);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task<List<Empleado>> GetSubordinados(int idemp)
+        {
+            return await this.context.empleados.Where(z => z.Director == idemp).ToListAsync();
+        }
+
     }
 }

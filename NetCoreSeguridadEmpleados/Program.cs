@@ -15,6 +15,7 @@ builder.Services.AddAuthorization(options =>
 options.AddPolicy("SOLOJEFES", policy => policy.RequireRole("PRESIDENTE", "DIRECTOR", "ANALISTA"));
 options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
 options.AddPolicy("SOLOMASONES", policy => policy.Requirements.Add(new OverSalarioRequirement()));
+options.AddPolicy("SOLOSINSUBORDINADOS", policy => policy.Requirements.Add(new DeleteJefeRequirement()));
 });//AHORA LO APLICAREMOS DENTRO DE COMPIES,EN EL CONTROLLER DE EMPLEADOS
 
 
