@@ -6,6 +6,15 @@
 
 <h1>COMPIS VISTA</h1>
 
+@if(Context.User.IsInRole("PRESIDENTE")||Context.User.IsInRole("DIRECTOR")){
+    <form method="post">
+        <label>Incremento salarial:</label>
+        <input type="text" name="incremento" class="form-control" />
+
+        <button class="btn btn-warning"> Subir salarios</button>
+    </form>
+}
+
 <table class="table table-dark">
     <thead>
         <tr>
@@ -22,7 +31,7 @@
                 SALARIO
             </th>
             <th>
-                DEPTNO @Context.User.FindFirst("Departamento")
+                @Context.User.FindFirst("Departamento")
             </th>
             <th></th>
         </tr>
@@ -55,3 +64,5 @@
         }
     </tbody>
 </table>
+
+

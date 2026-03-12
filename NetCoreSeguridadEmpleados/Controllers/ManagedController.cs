@@ -40,7 +40,7 @@ namespace NetCoreSeguridadEmpleados.Controllers
                 Claim claimId =
                     new(ClaimTypes.NameIdentifier, empleado.IdEmpleado.ToString());
                 identity.AddClaim(claimId);
-                //AHORA COMO ROL USAREMOS SU OFICIO
+                //AHORA COMO ROL USAREMOS SU OFICIO IMPORTANTE
                 Claim claimRole =
                     new(ClaimTypes.Role, empleado.Oficio);
                 identity.AddClaim(claimRole);
@@ -57,8 +57,16 @@ namespace NetCoreSeguridadEmpleados.Controllers
                 ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
                 //VALIDAMOS EL SCHEMA Y USER
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
+
+                string controller = TempData["controller"].ToString();
+                string action = TempData["action"].ToString();
+
+
                 //POR AHORA LO ENVIAMOS A UNA VISTA QUE HAREMOS EN BREVE
-                return RedirectToAction("Perfil", "Empleados");//MIRAR BIEN EL NOMBRE
+                //return RedirectToAction("Perfil", "Empleados");//MIRAR BIEN EL NOMBRE
+                return RedirectToAction(action, controller);//Ahora implementamos el redirect dinamico
+
+
             }
 
             else

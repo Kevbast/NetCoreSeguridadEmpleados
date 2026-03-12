@@ -35,13 +35,29 @@ namespace NetCoreSeguridadEmpleados.Controllers
             return View();
         }
 
-        [AuthorizeEmpleados]
+        [AuthorizeEmpleados(Policy ="SOLOJEFES")]
         public async Task<IActionResult> Compis()
         {
             //RECUPERAMOS EL CLAIM DEL USUARIIOS VALIDADO(DEPARTAMENTO)
             string dato = HttpContext.User.FindFirstValue("Departamento");
 
             int idDepartamento = int.Parse(dato);
+
+            List<Empleado> empleados = await this.repo.GetEmpleadosDepartamento(idDepartamento);
+
+            return View(empleados);
+        }
+
+        [AuthorizeEmpleados]//aunque lo tenga en la vista es recomendable ponerlo en el post tmb
+        [HttpPost]
+        public async Task<IActionResult> Compis(int incremento)
+        {
+
+            //RECUPERAMOS EL CLAIM Departamento DEL USUARIO VALIDADO(DEPARTAMENTO)
+            string dato = HttpContext.User.FindFirstValue("Departamento");
+
+            int idDepartamento = int.Parse(dato);
+            await this.repo.UpdateSalariosEmpleadosDepartamentoAsync(idDepartamento,incremento);
 
             List<Empleado> empleados = await this.repo.GetEmpleadosDepartamento(idDepartamento);
 
